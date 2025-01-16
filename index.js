@@ -1,1 +1,220 @@
+const app = Vue.createApp({
+    data() {
+        return {
+            sidebarVisible: false,
+            dataObject: "",
+            selectA: "",
+            selectB: "",
+            listA: [
+                "Attain HVAC",
+                "Attain Metering",
+                "General MEP", 
+                "HVAC-R", 
+                "Electrical Service", 
+                "Security System",
+                "Audio/Visual System",
+                "Vertical Transportation",
+                "Waste Management",
+                "Catering",
+                "Smart Sensors",
+                "ICT",
+                "Fire/Smoke System",
+                "Lighting",
+                "Renewable Energy",
+                "Appliances"
+            ],
+            listB: [],
+            item: "",
+            sys: "",
+            equipmentReference: "",
+            assetReference: "",
+            deviceDataT: "",
+            deviceDataA: "",
+            pointsListA: [],
+            selectP: "",
+            endPointStringAT: "select from list",
+            endPointStringAA: "select from list",
+            endPointStringDT: "select from list",
+            endPointStringDA: "select from list",
+            assetEndpointListA: [],
+            selectedEndpointT: "",
+            selectedEndpointA: ""
+        };
+    },
 
+    mounted() {
+        this.getPoints(); 
+        this.getAssetEndpoints(); 
+    },
+
+    methods: {
+        toggleSidebar() {
+            this.sidebarVisible = !this.sidebarVisible;
+        },
+        closeSidebar() {
+            this.sidebarVisible = false;
+        },
+        
+        getPoints() {
+            const url = 'https://ghcwmc.stackhero-network.com/getPoints';
+            fetch(url).then(res => {
+                if (res.status === 200) {
+                    res.json().then(data => {
+                        console.log(data);
+                        this.pointsListA = data;
+                    });
+                }
+            });
+        },
+        getAssetEndpoints() {
+            const url = 'https://ghcwmc.stackhero-network.com/assetEndpointsA';
+            fetch(url).then(res => {
+                if (res.status === 200) {
+                    res.json().then(data => {
+                        console.log(data);
+                        this.assetEndpointListA = data;
+                    });
+                }
+            });
+        },
+        
+    syntaxHighlight(input) {
+    let jsonString;
+    // Check if the input is a JSON object or valid JSON string
+    if (typeof input === "string") {
+        try {
+            jsonString = JSON.stringify(JSON.parse(input), undefined, 4);
+        } catch (error) {
+            // If input is not valid JSON, treat it as plain text
+            return `<span class="string">${input}</span>`;
+        }
+    } else {
+        // If input is already a JSON object
+        jsonString = JSON.stringify(input, undefined, 4);
+    }
+    // Continue with syntax highlighting as usual
+    jsonString = jsonString.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return jsonString.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+        let cls = 'number';
+        if (/^"/.test(match)) {
+            cls = /:$/.test(match) ? 'key' : 'string';
+        } else if (/true|false/.test(match)) {
+            cls = 'boolean';
+        } else if (/null/.test(match)) {
+            cls = 'null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+    });
+},
+
+getAssetEndpoint() {
+    const endP = this.selectP;
+    if (endP=='building') {
+        this.assetReference = "BUILDING_ABCD";
+    } else if (endP=='floor') {
+        this.assetReference = "BUILDING_ABCD_FLOOR_FFF"
+    }
+    this.endPointStringAT = 'https://<host>/api/plugins/telemetry/ASSET/<assetID>/values/timeseries?keys=<comma separated list>&startTs=<range start UTC Timestamp milliseconds>&endTs=<range stop UTC Timestamp milliseconds> (Not including startTs and endTs results in last telemetry value being returned)';
+    this.endPointStringAA = 'https://<host>/api/plugins/telemetry/ASSET/<assetID>/values/attributes?keys=<comma separated list>';
+    const url = `https://ghcwmc.stackhero-network.com/assetEndpointsB?endPoint=${endP}`;
+    fetch(url)
+        .then(res => {
+            if (res.status === 200) {
+                return res.json().catch(error => {
+                    console.error("Response is not valid JSON:", error);
+                    return Promise.reject("Invalid JSON response");
+                });
+            } else {
+                console.warn("Server responded with status:", res.status);
+                return Promise.reject(`Server error: ${res.status}`);
+            }
+        })
+        .then(data => {
+            console.log("Fetched endpoint data:", data);
+            this.selectedEndpointT = data.timeseries;
+            this.selectedEndpointA = data.semistatic;
+        })
+        .catch(error => {
+            console.error("Fetch error:", error);
+            // Show an error message instead of JSON if there was a fetch error
+            this.selectedEndpointT = `Error: ${error}`;
+            this.selectedEndpointA = `Error: ${error}`;
+        });
+},
+    
+        setSystem() {
+            const x = this.selectA;
+            this.listB = [];
+            this.equipmentReference = "";
+            const url = `https://ghcwmc.stackhero-network.com/getDevicesData?sys=${x}`;
+            fetch(url).then(res => {
+                if (res.status === 200) {
+                    res.json().then(data => {
+                        console.log(data);
+                        this.dataObject = data;
+                        for (let i = 0; i < data[0].length; i++) {
+                            this.listB.push(data[0][i][0]);
+                        }
+                    });
+                }
+            });
+        },
+
+        setItem() {
+            this.endPointStringDT = 'https://<host>/api/plugins/telemetry/DEVICE/<deviceID>/values/timeseries?keys=<comma separated list>&startTs=<range start UTC Timestamp milliseconds>&endTs=<range stop UTC Timestamp milliseconds> (Not including startTs and endTs results in last telemetry value being returned)';
+            this.endPointStringDA = 'https://<host>/api/plugins/telemetry/DEVICE/<deviceID>/values/attributes?keys=<comma separated list>';
+            const x = this.selectB;
+            const y = this.dataObject;
+            for (let i = 0; i < y[0].length; i++) {
+                if (y[0][i][0] === x) {
+                    this.item = y[0][i][1];
+                    this.sys = y[0][i][2];
+                }
+            }
+            const z = this.item;
+            console.log(z);
+            const url = `https://ghcwmc.stackhero-network.com/getDeviceConfig?item=${z}`;
+            fetch(url).then(res => {
+                if (res.ok) {  
+                    return res.json().then(data => {
+                        console.log(data);
+                        this.deviceDataT = data.telemetry || {"config": "not defined"};
+                        this.deviceDataA = data.attributes || {"config": "not defined"};
+                    }).catch(jsonError => {
+                        console.error("JSON parsing error:", jsonError);
+                        this.deviceDataT = {"config": "not yet defined, contact Attain"};
+                        this.deviceDataA = {"config": "not yet defined, contact Attain"};
+                    });
+                } else {
+                    console.warn("Server responded with status:", res.status);
+                    this.deviceDataT = {"config": "not yet defined, contact Attain"};
+                    this.deviceDataA = {"config": "not yet defined, contact Attain"};
+                }
+            }).catch(error => {
+                console.error("Fetch error:", error);
+                this.deviceDataT = {"config": "not yet defined, contact Attain"};
+                this.deviceDataA = {"config": "not yet defined, contact Attain"};
+            });
+
+            this.getAssetName();
+        },
+
+        getAssetName() {
+            const generateString = function() {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                let result = '';
+                for (let i = 0; i < 3; i++) {
+                    result += chars.charAt(Math.floor(Math.random() * chars.length));
+                }    
+                return result;
+            };
+            const type = this.item;
+            const floor = "FFF-";
+            const inst = "NNNN-";
+            const proj = "ABCD";
+            this.equipmentReference = "Equipment Name : " + type + "-" + floor + inst + proj + " , where FFF is a floor number or zone reference, and NNNN is a unique equipment instance/reference for that floor, and ABCD is the unique Attain project reference";
+        }
+    }
+});
+
+app.mount('#smartBldgDesign');
