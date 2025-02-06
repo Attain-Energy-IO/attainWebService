@@ -56,7 +56,7 @@ const app = Vue.createApp({
         },
         
         getPoints() {
-            const url = 'https://ghcwmc.stackhero-network.com/getPoints';
+            const url = 'https://red.attain-energy.io/getPoints';
             fetch(url).then(res => {
                 if (res.status === 200) {
                     res.json().then(data => {
@@ -67,7 +67,7 @@ const app = Vue.createApp({
             });
         },
         getAssetEndpoints() {
-            const url = 'https://ghcwmc.stackhero-network.com/assetEndpointsA';
+            const url = 'https://red.attain-energy.io/assetEndpointsA';
             fetch(url).then(res => {
                 if (res.status === 200) {
                     res.json().then(data => {
@@ -116,7 +116,7 @@ getAssetEndpoint() {
     }
     this.endPointStringAT = 'https://<host>/api/plugins/telemetry/ASSET/<assetID>/values/timeseries?keys=<comma separated list>&startTs=<range start UTC Timestamp milliseconds>&endTs=<range stop UTC Timestamp milliseconds> (Not including startTs and endTs results in last telemetry value being returned)';
     this.endPointStringAA = 'https://<host>/api/plugins/telemetry/ASSET/<assetID>/values/attributes?keys=<comma separated list>';
-    const url = `https://ghcwmc.stackhero-network.com/assetEndpointsB?endPoint=${endP}`;
+    const url = `https://red.attain-energy.io/assetEndpointsB?endPoint=${endP}`;
     fetch(url)
         .then(res => {
             if (res.status === 200) {
@@ -146,7 +146,7 @@ getAssetEndpoint() {
             const x = this.selectA;
             this.listB = [];
             this.equipmentReference = "";
-            const url = `https://ghcwmc.stackhero-network.com/getDevicesData?sys=${x}`;
+            const url = `https://red.attain-energy.io/getDevicesData?sys=${x}`;
             fetch(url).then(res => {
                 if (res.status === 200) {
                     res.json().then(data => {
@@ -173,7 +173,7 @@ getAssetEndpoint() {
             }
             const z = this.item;
             console.log(z);
-            const url = `https://ghcwmc.stackhero-network.com/getDeviceConfig?item=${z}`;
+            const url = `https://red.attain-energy.io/getDeviceConfig?item=${z}`;
             fetch(url).then(res => {
                 if (res.ok) {  
                     return res.json().then(data => {
