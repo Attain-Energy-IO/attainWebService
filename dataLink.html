@@ -1,1 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<title>Smart Building Toolkit</title>
+<meta charset="UTF-8">
+<link rel="icon" href="http://example.com/favicon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./index.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="./index.js" defer></script>
+
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+</style>
+
+</head>
+
+<body class="n0-light-grey">
+
+<!-- Top container -->
+<div class="n0-bar n0-top n0-indigo n0-large" style="z-index:4">
+  <span class="n0-bar-item n0-right"><b>Attain Energy IO - Smart Building Platform</b></span>
+</div>
+<br>
+<div class="n0-container n0-padding-32">
+
+<p>
+  <a href="./devices.html" class="n0-button n0-block n0-round-large n0-teal" style="text-decoration: none; color: inherit; display: block; text-align: center; padding: 8px; border: none; cursor: pointer;">
+    Device Data
+  </a>
+</p>
+<p>
+  <a href="./points.html" class="n0-button n0-block n0-round-large n0-teal" style="text-decoration: none; color: inherit; display: block; text-align: center; padding: 8px; border: none; cursor: pointer;">
+    Telemetry Points List / Library
+  </a>
+</p>
+<p>
+  <a href="./assets.html" class="n0-button n0-block n0-round-large n0-teal" style="text-decoration: none; color: inherit; display: block; text-align: center; padding: 8px; border: none; cursor: pointer;">
+    Asset Data
+  </a>
+</p>
+<!--p>
+  <a href="" class="n0-button n0-block n0-round-large n0-red" v-on:click="" style="text-decoration: none; color: inherit; display: block; text-align: center; padding: 8px; border: none; cursor: pointer;">
+    PLM Maintenance App
+  </a>
+</p-->
+
+</div>
+
+<div class="n0-container">
+  <h5>Welcome to the Attain Web Interface (AWI), an easy to use REST API enabling seamless access to smart building data</h5>
+  <p>Follow these steps to start accessing your data. Wherever you see <...> you will need to input the required project specfic information</p>
+
+  <ul class="n0-ul n0-border">
+    <li><h4>Task</h4></li>
+    <li>1. Contact the Attain team or the customer administrator and request your user account be setup, if not already done</li>
+    <li>2. Authenticate your user and obtain access token here : https://&lt;host&gt;/api/auth/login , and periodically refresh the token here : https://&lt;host&gt;/api/auth/token , All subsequent requests will require Bearer token in request header</li>
+    <li>3. Fetch site details. Each site is represented as PROJECT_ABCD, where ABCD is a unique project reference : https://&lt;host&gt;/api/customers?pageSize=100&page=0 , Save the project ID for the project you wish to access</li>
+    <li>4. Fetch project device (MEP devices) details : https://&lt;host&gt;/api/customer/&lt;project ID&gt;/devices?pageSize=500&page=0 , Save the device ID for the device(s) you wish to access</li>
+    <li>4. Fetch project asset (building/floors) details : https://&lt;host&gt;/api/customer/&lt;project ID&gt;/assets?pageSize=50&page=0 , Save the asset ID for the asset(s) you wish to access</li>
+  </ul>
+</div>
+    
+<script>
+function printPage() {
+    window.print();
+}
+var mySidebar = document.getElementById("mySidebar");
+var overlayBg = document.getElementById("myOverlay");
+</script>
+
+</body>
+</html>
