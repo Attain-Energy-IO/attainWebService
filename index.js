@@ -78,69 +78,80 @@ const app = Vue.createApp({
             });
         },
         
-    syntaxHighlight(input) {
-    let jsonString;
-    // Check if the input is a JSON object or valid JSON string
-    if (typeof input === "string") {
-        try {
-            jsonString = JSON.stringify(JSON.parse(input), undefined, 4);
-        } catch (error) {
-            // If input is not valid JSON, treat it as plain text
-            return `<span class="string">${input}</span>`;
-        }
-    } else {
-        // If input is already a JSON object
-        jsonString = JSON.stringify(input, undefined, 4);
-    }
-    // Continue with syntax highlighting as usual
-    jsonString = jsonString.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    return jsonString.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-        let cls = 'number';
-        if (/^"/.test(match)) {
-            cls = /:$/.test(match) ? 'key' : 'string';
-        } else if (/true|false/.test(match)) {
-            cls = 'boolean';
-        } else if (/null/.test(match)) {
-            cls = 'null';
-        }
-        return '<span class="' + cls + '">' + match + '</span>';
-    });
-},
-
-getAssetEndpoint() {
-    const endP = this.selectP;
-    if (endP=='building') {
-        this.assetReference = "BUILDING_ABCD";
-    } else if (endP=='floor') {
-        this.assetReference = "BUILDING_ABCD_FLOOR_FFF"
-    }
-    this.endPointStringAT = 'https://<host>/api/plugins/telemetry/ASSET/<assetID>/values/timeseries?keys=<comma separated list>&startTs=<range start UTC Timestamp milliseconds>&endTs=<range stop UTC Timestamp milliseconds> (Not including startTs and endTs results in last telemetry value being returned)';
-    this.endPointStringAA = 'https://<host>/api/plugins/telemetry/ASSET/<assetID>/values/attributes?keys=<comma separated list>';
-    const url = `https://red.attain-energy.io/assetEndpointsB?endPoint=${endP}`;
-    fetch(url)
-        .then(res => {
-            if (res.status === 200) {
-                return res.json().catch(error => {
-                    console.error("Response is not valid JSON:", error);
-                    return Promise.reject("Invalid JSON response");
-                });
+        syntaxHighlight(input) {
+            let jsonString;
+            
+            // If input is a string, try parsing it as JSON
+            if (typeof input === "string") {
+                try {
+                    jsonString = JSON.parse(input);
+                } catch (error) {
+                    return `<span class="string">${input}</span>`;
+                }
             } else {
-                console.warn("Server responded with status:", res.status);
-                return Promise.reject(`Server error: ${res.status}`);
+                jsonString = input; // If already an object/array
             }
-        })
-        .then(data => {
-            console.log("Fetched endpoint data:", data);
-            this.selectedEndpointT = data.timeseries;
-            this.selectedEndpointA = data.semistatic;
-        })
-        .catch(error => {
-            console.error("Fetch error:", error);
-            // Show an error message instead of JSON if there was a fetch error
-            this.selectedEndpointT = `Error: ${error}`;
-            this.selectedEndpointA = `Error: ${error}`;
-        });
-},
+        
+            if (Array.isArray(jsonString)) {
+                // Handle arrays by converting them to a bullet-point list
+                return `<ul class="json-array">` + jsonString.map(item => 
+                    `<li>${this.syntaxHighlight(item)}</li>`
+                ).join('') + `</ul>`;
+            }
+        
+            // If it's an object, continue with normal JSON highlighting
+            let formattedJson = JSON.stringify(jsonString, undefined, 4)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        
+            return formattedJson.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                let cls = 'number';
+                if (/^"/.test(match)) {
+                    cls = /:$/.test(match) ? 'key' : 'string';
+                } else if (/true|false/.test(match)) {
+                    cls = 'boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'null';
+                }
+                return `<span class="${cls}">${match}</span>`;
+            });
+        },
+
+        getAssetEndpoint() {
+            const endP = this.selectP;
+            if (endP=='building') {
+                this.assetReference = "BUILDING_ABCD";
+            } else if (endP=='floor') {
+                this.assetReference = "BUILDING_ABCD_FLOOR_FFF"
+            }
+            this.endPointStringAT = 'https://<host>/api/plugins/telemetry/ASSET/<assetID>/values/timeseries?keys=<comma separated list>&startTs=<range start UTC Timestamp milliseconds>&endTs=<range stop UTC Timestamp milliseconds> (Not including startTs and endTs results in last telemetry value being returned)';
+            this.endPointStringAA = 'https://<host>/api/plugins/telemetry/ASSET/<assetID>/values/attributes?keys=<comma separated list>';
+            const url = `https://red.attain-energy.io/assetEndpointsB?endPoint=${endP}`;
+            fetch(url)
+                .then(res => {
+                    if (res.status === 200) {
+                        return res.json().catch(error => {
+                            console.error("Response is not valid JSON:", error);
+                            return Promise.reject("Invalid JSON response");
+                        });
+                    } else {
+                        console.warn("Server responded with status:", res.status);
+                        return Promise.reject(`Server error: ${res.status}`);
+                    }
+                })
+                .then(data => {
+                    console.log("Fetched endpoint data:", data);
+                    this.selectedEndpointT = data.timeseries;
+                    this.selectedEndpointA = data.semistatic;
+                })
+                .catch(error => {
+                    console.error("Fetch error:", error);
+                    // Show an error message instead of JSON if there was a fetch error
+                    this.selectedEndpointT = `Error: ${error}`;
+                    this.selectedEndpointA = `Error: ${error}`;
+                });
+        },
     
         setSystem() {
             const x = this.selectA;
