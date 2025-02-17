@@ -42,7 +42,7 @@ const app = Vue.createApp({
             dataDesignA: {
                 'data':{
                     'DEVICE_A_NAME':{
-                        'keyA':'valueA'
+                        'telemetry key name (taken from the Attain Key here:<a href="./points.html">points library</a>)':'point value (number,boolean,string)'
                     }
                 }
             }
