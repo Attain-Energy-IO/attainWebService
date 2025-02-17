@@ -236,3 +236,11 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 .n0-border-dark-grey,.n0-hover-border-dark-grey:hover,.n0-border-dark-gray,.n0-hover-border-dark-gray:hover{border-color:#616161!important}
 .n0-border-pale-red,.n0-hover-border-pale-red:hover{border-color:#ffe7e7!important}.n0-border-pale-green,.n0-hover-border-pale-green:hover{border-color:#e7ffe7!important}
 .n0-border-pale-yellow,.n0-hover-border-pale-yellow:hover{border-color:#ffffcc!important}.n0-border-pale-blue,.n0-hover-border-pale-blue:hover{border-color:#e7ffff!important}
+.json-array {
+    padding-left: 20px;
+    list-style-type: disc;
+}
+.json-array li {
+    margin-bottom: 5px;
+}
+
