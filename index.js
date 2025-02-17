@@ -38,7 +38,14 @@ const app = Vue.createApp({
             endPointStringDA: "select from list",
             assetEndpointListA: [],
             selectedEndpointT: "",
-            selectedEndpointA: ""
+            selectedEndpointA: "",
+            dataDesignA: {
+                'data':{
+                    'DEVICE_A_NAME':{
+                        'keyA':'valueA'
+                    }
+                }
+            }
         };
     },
 
