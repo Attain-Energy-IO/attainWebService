@@ -80,7 +80,6 @@ const app = Vue.createApp({
         
         syntaxHighlight(input) {
             let jsonString;
-            
             // If input is a string, try parsing it as JSON
             if (typeof input === "string") {
                 try {
@@ -91,20 +90,17 @@ const app = Vue.createApp({
             } else {
                 jsonString = input; // If already an object/array
             }
-        
             if (Array.isArray(jsonString)) {
                 // Handle arrays by converting them to a bullet-point list
                 return `<ul class="json-array">` + jsonString.map(item => 
                     `<li>${this.syntaxHighlight(item)}</li>`
                 ).join('') + `</ul>`;
             }
-        
             // If it's an object, continue with normal JSON highlighting
             let formattedJson = JSON.stringify(jsonString, undefined, 4)
                 .replace(/&/g, '&amp;')
                 .replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;');
-        
             return formattedJson.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
                 let cls = 'number';
                 if (/^"/.test(match)) {
