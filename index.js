@@ -41,8 +41,8 @@ const app = Vue.createApp({
             selectedEndpointA: "",
             dataDesignA: {
                 'data':{
-                    'DEVICE_A_NAME': {
-                        'telemetry key name (taken from the points library <Attain Key>)':'point value (number,boolean,string)'
+                    'DEVICE_A_NAME (from Attain device naming schema)': {
+                        'telemetry key name (from points library <Attain Key>)':'point value (number,boolean,string)'
                     },
                     'DEVICE_B_NAME': {},
                     'DEVICE_..._NAME': {}
