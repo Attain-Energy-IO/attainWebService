@@ -69,8 +69,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   <p>The Attain data transport design ensures maximum data efficiency and enables other outcomes such as rapid site onboarding</p>
 
   <ul class="n0-ul n0-border">
-    <li><h6><b>Site telemetry data object | site --> platform | 15 minute intervals</b></h6></li>
+    <li><h6><b>Site telemetry data object | site --POST-TO--> platform | 15 minute intervals</b></h6></li>
     <li><pre class="n0-code n0-small" v-html="syntaxHighlight(dataDesignA)"></pre></li>
+    <li><p>All device metadata and relations are stored as server side device attributes</p></li>
   </ul>
 </div>
     
