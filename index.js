@@ -45,7 +45,17 @@ const app = Vue.createApp({
                         'telemetry key name (from points library <Attain Key>)':'point value (number,boolean,string)'
                     },
                     'DEVICE_B_NAME': {},
-                    'DEVICE_..._NAME': {}
+                    'FCU_A-05E-010M-0106': {
+                        'rat': 21.9,
+                        'sat': 26.2,
+                        'tsp': 22.0,
+                        'enb': true,
+                        'htg': 100,
+                        'clg': 0,
+                        'spd': 100,
+                        'flt': false,
+                        'afl': 176
+                    }
                 }
             }
         };
