@@ -8,6 +8,7 @@ const app = Vue.createApp({
             listA: [
                 "Attain HVAC",
                 "Attain Metering",
+                "Attain Sensors",
                 "General MEP", 
                 "HVAC-R", 
                 "Electrical Service", 
