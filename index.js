@@ -62,15 +62,14 @@ const app = Vue.createApp({
                 }
             },
             dataDesignB: {
-                'data': {
+                'data': 
                     [
                         ['DEVICE_NAME','command type (SETPOINT/MODE/SCHEDULE)','desired value i.e 21.0','current value i.e 22.5','minute of day timestamp','expected energy saving KWh'],
                         ['DEVICE_NAME','SETPOINT','20.5','21.5','660','0.3'],
                         ['DEVICE_NAME','MODE','FAN','HEAT','720','1.2'],
                         ['...'],
                         ['...']
-                    ]
-                }
+                ]
             }
         };
     },
