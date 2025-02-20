@@ -76,7 +76,13 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 <br>
   <ul class="n0-ul n0-border">
     <li><h6><b>Attain trim (commands) data object | SITE -- GET --> PLATFORM --> SITE | 15 minute intervals</b></h6></li>
-    <li><pre class="n0-code n0-small" v-html="syntaxHighlight(dataDesignA)"></pre></li>
+    <li><pre class="n0-code n0-small" v-html="syntaxHighlight(dataDesignB)"></pre></li>
+    <li><p>Device commands are aggregated within each 15 minute interval then served from the Attain platform to the edge. Commands are then routed to applicable control devices</p></li>
+  </ul>
+<br>
+  <ul class="n0-ul n0-border">
+    <li><h6><b>Attain fast updates (User engagement App commands) data object | SITE -- GET --> PLATFORM --> SITE | 1 minute interval</b></h6></li>
+    <li><pre class="n0-code n0-small" v-html="syntaxHighlight(dataDesignB)"></pre></li>
     <li><p>Device commands are aggregated within each 15 minute interval then served from the Attain platform to the edge. Commands are then routed to applicable control devices</p></li>
   </ul>
 
