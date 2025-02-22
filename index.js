@@ -70,6 +70,14 @@ const app = Vue.createApp({
                         ['...'],
                         ['...']
                 ]
+            },
+            dataDesignC: {
+                'data':{
+                    'DEVICE_NAME (from Attain device naming schema)': ['command type (TEMP/FAN/LIGHTING)','command action i.e increase/decrease','current value i.e 22.5'],
+                    'DEVICE_NAME': [],
+                    'DEVICE_..._NAME': [],
+                    'FCU_A-05E-03-011N': ['TEMP','increase','19.5'],
+                }
             }
         };
     },
