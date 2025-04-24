@@ -32,6 +32,7 @@ const app = Vue.createApp({
             deviceDataT: "",
             deviceDataA: "",
             pointsListA: [],
+            pointsListB: [],
             selectP: "",
             endPointStringAT: "select from list",
             endPointStringAA: "select from list",
@@ -101,7 +102,8 @@ const app = Vue.createApp({
                 if (res.status === 200) {
                     res.json().then(data => {
                         console.log(data);
-                        this.pointsListA = data;
+                        this.pointsListA = data.a;
+                        this.pointsListB = data.b;
                     });
                 }
             });
