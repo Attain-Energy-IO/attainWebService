@@ -77,6 +77,21 @@
         <h5>Telemetry keys list for all connected device types</h5>
         <div class="n0-responsive">
             <table class="n0-table n0-bordered n0-hoverable">
+                <thead>
+                  <tr class="n0-teal">
+                    <th>device type</th>
+                    <th>point A</th>
+                    <th>point B</th>
+                    <th>point C</th>
+                    <th>point D</th>
+                    <th>point E</th>
+                    <th>point F</th>
+                    <th>point G</th>
+                    <th>point H</th>
+                    <th>point I</th>
+                    <th>point J</th>
+                  </tr>
+                </thead>
                 <tbody>
                     <tr v-for="(point, index) in pointsListB" :key="index">
                         <td v-for="(value, key) in point" :key="key">{{ value }}</td>
