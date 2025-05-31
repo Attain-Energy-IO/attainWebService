@@ -78,11 +78,6 @@
         <hr>
         <div class="n0-responsive">
             <table class="n0-table n0-bordered n0-hoverable">
-                <thead>
-                    <tr class="n0-teal">
-                        <th v-for="(value, key) in pointsListB[0]" :key="key">{{ key }}</th>
-                    </tr>
-                </thead>
                 <tbody>
                     <tr v-for="(point, index) in pointsListB" :key="index">
                         <td v-for="(value, key) in point" :key="key">{{ value }}</td>
