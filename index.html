@@ -19,8 +19,6 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
 </head>
 <body class="n0-light-grey">
-    <div id="smartBldgDesign">
-
         <!-- Top container -->
         <div class="n0-bar n0-top n0-indigo n0-large" style="z-index:4">
             <button class="n0-bar-item n0-button n0-hide-large n0-hover-none n0-hover-text-light-grey" @click="toggleSidebar"><i class="fa fa-bars"></i>  Menu</button>
@@ -63,13 +61,15 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
         <div class="n0-container">
           <h5>Welcome to the Attain Web Interface (AWI), an easy to use REST API enabling seamless integration with your Attain platform</h5>
           <p>Note : For white label customers / tenant administrators only. Replace <...> with your project specfic information</p>
-        
+        </div>
+        <div class="n0-container">
           <ul class="n0-ol n0-border">
             <li><h4>Notes</h4></li>
             <li>Project entities are split into two core categories: 1.Devices and 2.Assets. Devices include all MEP equipment. Assets include buildings and each floor or main demise within each building</li>
             <li>Each project entity has two data types: 1.Static/semi-static and 2.Timeseries. </li>
           </ol>
-
+        </div>
+        <div class="n0-container">
           <ul class="n0-ul n0-border">
             <li><h4>Data Access Guide</h4></li>
             <li>1. Authenticate your user and obtain access token here : https://&lt;host&gt;/api/auth/login , and periodically refresh the token here : https://&lt;host&gt;/api/auth/token , All subsequent requests will require Bearer token in request header</li>
@@ -78,7 +78,6 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
             <li>5. Fetch project asset (building/floors) details : https://&lt;host&gt;/api/customer/&lt;project ID&gt;/assets?pageSize=50&page=0 , Save the asset ID for the asset(s) you wish to access</li>
           </ul>
         </div>
-
 
     <!-- End page content -->
     </div>
